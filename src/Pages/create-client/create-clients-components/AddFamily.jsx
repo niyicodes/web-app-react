@@ -4,9 +4,6 @@ import CustomInput from '../../../components/CustomInput';
 const FamilyMembers = ({
  nextStep,
  prevStep,
- handleChange,
- values,
- errors,
  familyMembers,
  addFamilyMember,
  updateFamilyMember,
@@ -62,30 +59,32 @@ const FamilyMembers = ({
  };
 
  return (
-  <div className="p-4">
-   <h2 className="text-xl mb-4">Family Members</h2>
-   <button
-    onClick={() => {
-     setShowForm(!showForm);
-     setEditIndex(null);
-     setNewMember({
-      firstName: '',
-      lastName: '',
-      middleName: '',
-      age: '',
-      relationship: '',
-      gender: '',
-      profession: '',
-      dob: '',
-      isDependent: false,
-     });
-    }}
-    className="bg-blue-500 text-white p-2 rounded mb-4"
-   >
-    {showForm ? 'Cancel' : 'Add Family Member'}
-   </button>
+  <div className="p-4 border-2 border-red-500 w-full">
+   <div className='flex justify-between items-center'>
+     <h2 className="text-xl mb-4">Family Members</h2>
+     <button
+      onClick={() => {
+       setShowForm(!showForm);
+       setEditIndex(null);
+       setNewMember({
+        firstName: '',
+        lastName: '',
+        middleName: '',
+        age: '',
+        relationship: '',
+        gender: '',
+        profession: '',
+        dob: '',
+        isDependent: false,
+       });
+      }}
+      className="bg-blue-500 text-white p-2 rounded mb-4"
+     >
+      {showForm ? 'Cancel' : 'Add Family Member'}
+     </button>
+   </div>
    {showForm && (
-    <div className="grid grid-cols-1 gap-4 mb-4">
+    <div className="formWrapper">
      <CustomInput
       type="text"
       name="firstName"

@@ -3,10 +3,10 @@ import CustomInput from '../../../components/CustomInput'
 
 const General = ({ nextStep, handleChange, values, errors }) => {
  return (
-  <div className="p-4">
+  <div className="p-4 border-2 border-green-700 w-full">
    <h2 className="text-xl mb-4">General Information</h2>
    {/* names */}
-   <div className='grid grid-cols-1 md:grid-cols-3 gap-3'>
+   <div className='formWrapper'>
     <CustomInput
      type="text"
      name="firstName"
@@ -62,7 +62,7 @@ const General = ({ nextStep, handleChange, values, errors }) => {
     />
    </div>
    {/* more info */}
-   <div className='grid grid-cols-1 md:grid-cols-3 gap-3'>
+   <div className='formWrapper'>
     <CustomInput
      type="email"
      name="email"
@@ -98,7 +98,7 @@ const General = ({ nextStep, handleChange, values, errors }) => {
     />
    </div>
    {/* last info */}
-   <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+   <div className="formWrapper">
     <CustomInput
      type="select"
      name="legalForm"

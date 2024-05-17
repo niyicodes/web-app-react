@@ -1,35 +1,37 @@
-import React, { useState } from 'react'
-import General from './create-clients-components/General'
-import AddAddress from './create-clients-components/AddAddress';
-import FamilyMembers from './create-clients-components/AddFamily';
+import React, { useState } from "react";
+import General from "./create-clients-components/General";
+import AddAddress from "./create-clients-components/AddAddress";
+import FamilyMembers from "./create-clients-components/AddFamily";
+import AddMandate from "./create-clients-components/AddMandate";
 
 const CreateClient = () => {
   const [step, setStep] = useState(1);
   const [values, setValues] = useState({
-    firstName: '',
-    lastName: '',
-    middleName: '',
-    office: '',
-    legalForm: '',
-    dob: '',
-    gender: '',
-    email: '',
-    phone: '',
-    clientType: '',
-    clientClassification: '',
-    openSavings: 'no',
-    savingsOption: '',
-    clientAddress: ''
+    firstName: "",
+    lastName: "",
+    middleName: "",
+    office: "",
+    legalForm: "",
+    dob: "",
+    gender: "",
+    email: "",
+    phone: "",
+    clientType: "",
+    clientClassification: "",
+    openSavings: "no",
+    savingsOption: "",
+    clientAddress: "",
   });
   const [entries, setEntries] = useState([]);
   const [errors, setErrors] = useState({});
   const [familyMembers, setFamilyMembers] = useState([]);
+  const [mandates, setMandates] = useState([]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setValues({
       ...values,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: type === "checkbox" ? checked : value,
     });
     if (errors[name]) {
       setErrors({
@@ -39,9 +41,22 @@ const CreateClient = () => {
     }
   };
 
-
   const addFamilyMember = (member) => {
     setFamilyMembers([...familyMembers, member]);
+  };
+  const addMandate = (mandate) => {
+    setMandates([...mandates, mandate]);
+  };
+  const updateMandate = (index, updatedMandate) => {
+    const updatedMandates = mandates.map((mandate, i) =>
+      i === index ? updatedMandate : mandate
+    );
+    setMandates(updatedMandates);
+  };
+
+  const deleteMandate = (index) => {
+    const updatedMandates = mandates.filter((_, i) => i !== index);
+    setMandates(updatedMandates);
   };
 
   const updateFamilyMember = (index, updatedMember) => {
@@ -104,7 +119,7 @@ const CreateClient = () => {
       newErrors.clientClassification = true;
       if (!errorStep) errorStep = 1;
     }
-    if (values.openSavings === 'yes' && !values.savingsOption) {
+    if (values.openSavings === "yes" && !values.savingsOption) {
       newErrors.savingsOption = true;
       if (!errorStep) errorStep = 1;
     }
@@ -112,7 +127,6 @@ const CreateClient = () => {
     setErrors(newErrors);
     return errorStep;
   };
-
 
   const nextStep = () => {
     setStep(step + 1);
@@ -129,7 +143,7 @@ const CreateClient = () => {
     console.log("Values:", values); // Debugging: Check the current values
 
     if (errorStep === null) {
-      alert('Form submitted successfully!');
+      alert("Form submitted successfully!");
     } else {
       setStep(errorStep);
     }
@@ -137,33 +151,62 @@ const CreateClient = () => {
 
   switch (step) {
     case 1:
-      return <General nextStep={nextStep} handleChange={handleChange} values={values} errors={errors} />;
+      return (
+        <div className="containerClass">
+          <General
+            nextStep={nextStep}
+            handleChange={handleChange}
+            values={values}
+            errors={errors}
+          />
+        </div>
+      );
     case 2:
       return (
-        <FamilyMembers
-          nextStep={nextStep}
-          prevStep={prevStep}
-          handleChange={handleChange}
-          values={values}
-          errors={errors}
-          familyMembers={familyMembers}
-          addFamilyMember={addFamilyMember}
-          updateFamilyMember={updateFamilyMember}
-          deleteFamilyMember={deleteFamilyMember}
-        />
+        <div className="containerClass">
+          <FamilyMembers
+            nextStep={nextStep}
+            prevStep={prevStep}
+            errors={errors}
+            familyMembers={familyMembers}
+            addFamilyMember={addFamilyMember}
+            updateFamilyMember={updateFamilyMember}
+            deleteFamilyMember={deleteFamilyMember}
+          />
+        </div>
       );
     case 3:
       return (
-        <AddAddress
-          prevStep={prevStep}
-          handleChange={handleChange}
-          values={values}
-          handleFinalSubmit={handleFinalSubmit}
-          errors={errors}
-        />
+        <div className="containerClass">
+          <AddMandate
+            nextStep={nextStep}
+            prevStep={prevStep}
+            errors={errors}
+            mandate={mandates}
+            addMandate={addMandate}
+            updateMandate={updateMandate}
+            deleteMandate={deleteMandate}
+          />
+        </div>
+      );
+    case 4:
+      return (
+        <div className="containerClass">
+          <AddAddress
+            prevStep={prevStep}
+            handleChange={handleChange}
+            values={values}
+            handleFinalSubmit={handleFinalSubmit}
+            errors={errors}
+          />
+        </div>
       );
     default:
-      return <div>Error: Invalid step</div>;
+      return (
+        <div className="containerClass">
+          Error: Invalid step
+        </div>
+      );
   }
 };
 

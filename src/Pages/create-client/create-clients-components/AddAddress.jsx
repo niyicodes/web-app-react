@@ -3,7 +3,7 @@ import CustomInput from '../../../components/CustomInput'
 
 const AddAddress = ({ prevStep, handleChange, values, handleFinalSubmit, errors }) => {
  return (
-  <div>
+  <div className=''>
    <CustomInput
     type="text"
     name="clientAddress"
