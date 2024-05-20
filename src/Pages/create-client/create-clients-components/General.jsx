@@ -7,6 +7,49 @@ const General = ({ nextStep, handleChange, values, errors }) => {
    <h2 className="text-xl mb-4">General Information</h2>
    {/* names */}
    <div className='formWrapper'>
+   <CustomInput
+     type="select"
+     name="office"
+     label="Office"
+     value={values.office}
+     handleChange={handleChange}
+     hasError={errors.office}
+     options={[
+      { value: 'head office', label: 'Head Office' },
+      { value: 'mpape', label: 'Mpape' },
+      { value: 'ofisi', label: 'Ofisi' },
+      { value: 'office1', label: 'Office 1' },
+      { value: 'bwari', label: 'Bwaro' },
+      // Add more options as needed
+     ]}
+     placeholder="Select an office"
+     important
+    />
+    <CustomInput
+     type="select"
+     name="legal_form"
+     label="Legal Form"
+     value={values.legal_form}
+     handleChange={handleChange}
+     hasError={errors.legal_form}
+     options={[
+      { value: 'person', label: 'Person' },
+      { value: 'entity', label: 'Entity' },
+     ]}
+     placeholder="Select a person"
+     important
+    />
+    <CustomInput
+     type="text"
+     name="external_id"
+     label="External Id"
+     value={values.external_id}
+     handleChange={handleChange}
+     hasError={errors.external_id}
+     important
+    />
+   </div>
+   <div className='formWrapper'>
     <CustomInput
      type="text"
      name="firstName"
@@ -83,37 +126,33 @@ const General = ({ nextStep, handleChange, values, errors }) => {
     />
     <CustomInput
      type="select"
-     name="office"
-     label="Office"
-     value={values.office}
+     name="staff"
+     label="Staff"
+     value={values.staff}
      handleChange={handleChange}
-     hasError={errors.office}
+     hasError={errors.staff}
      options={[
-      { value: 'office1', label: 'Office 1' },
-      { value: 'office2', label: 'Office 2' },
+      { value: 'staff1', label: 'Staff 1' },
+      { value: 'staff2', label: 'Staff 2' },
       // Add more options as needed
      ]}
-     placeholder="Select an office"
+     placeholder="Select a staff"
      important
     />
+    <article>
+    <label className="font-semibold mr-4">Is staff?</label>
+    <input
+     type="radio"
+     name="isStaff"
+     value="yes"
+     checked={values.isStaff === 'yes'}
+     onChange={handleChange}
+     className="mr-2"
+    />
+    </article>
    </div>
    {/* last info */}
    <div className="formWrapper">
-    <CustomInput
-     type="select"
-     name="legalForm"
-     label="Legal Form"
-     value={values.legalForm}
-     handleChange={handleChange}
-     hasError={errors.legalForm}
-     options={[
-      { value: 'form1', label: 'Form 1' },
-      { value: 'form2', label: 'Form 2' },
-      // Add more options as needed
-     ]}
-     placeholder="Select a legal form"
-     important
-    />
     <CustomInput
      type="select"
      name="clientType"
@@ -144,9 +183,28 @@ const General = ({ nextStep, handleChange, values, errors }) => {
      placeholder="Select a client classification"
      important
     />
+    <CustomInput
+     type="date"
+     name="submittedDate"
+     label="Submitted On"
+     value={values.submittedDate}
+     handleChange={handleChange}
+     hasError={errors.submittedDate}
+    />
+    <article>
+    <label className="font-semibold mr-4">Is Active?</label>
+    <input
+     type="radio"
+     name="isActive"
+     value="yes"
+     checked={values.isActive === 'yes'}
+     onChange={handleChange}
+     className="mr-2"
+    />
+    </article>
    </div>
    <div className="my-4">
-    <label className="font-semibold mr-4">Open Savings</label>
+    <label className="font-semibold mr-4">Open Savings Account</label>
     <input
      type="radio"
      name="openSavings"

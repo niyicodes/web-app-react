@@ -11,7 +11,7 @@ const CreateClient = () => {
     lastName: "",
     middleName: "",
     office: "",
-    legalForm: "",
+    legal_form: "",
     dob: "",
     gender: "",
     email: "",
@@ -22,7 +22,6 @@ const CreateClient = () => {
     savingsOption: "",
     clientAddress: "",
   });
-  const [entries, setEntries] = useState([]);
   const [errors, setErrors] = useState({});
   const [familyMembers, setFamilyMembers] = useState([]);
   const [mandates, setMandates] = useState([]);
@@ -87,8 +86,8 @@ const CreateClient = () => {
       newErrors.office = true;
       if (!errorStep) errorStep = 1;
     }
-    if (!values.legalForm) {
-      newErrors.legalForm = true;
+    if (!values.legal_form) {
+      newErrors.legal_form = true;
       if (!errorStep) errorStep = 1;
     }
     if (!values.dob) {
@@ -138,10 +137,6 @@ const CreateClient = () => {
 
   const handleFinalSubmit = () => {
     const errorStep = validate();
-    console.log("Error Step:", errorStep); // Debugging: Check which step has an error
-    console.log("Errors:", errors); // Debugging: Check the errors object
-    console.log("Values:", values); // Debugging: Check the current values
-
     if (errorStep === null) {
       alert("Form submitted successfully!");
     } else {
