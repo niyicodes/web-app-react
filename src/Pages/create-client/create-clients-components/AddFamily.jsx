@@ -68,7 +68,7 @@ const FamilyMembers = ({
   };
 
   return (
-    <div className="p-4 border-2 border-red-500 w-full">
+    <div className="p-4 w-full">
       <div className='flex justify-between items-center'>
         <h2 className="text-xl mb-4">Family Members</h2>
         <button

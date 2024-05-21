@@ -3,7 +3,7 @@ import CustomInput from '../../../components/CustomInput'
 
 const General = ({ nextStep, handleChange, values, errors }) => {
  return (
-  <div className="p-4 border-2 border-green-700 w-full">
+  <div className="p-4 w-full">
    <h2 className="text-xl mb-4">General Information</h2>
    {/* names */}
    <div className='formWrapper'>
