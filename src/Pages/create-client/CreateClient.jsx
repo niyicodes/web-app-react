@@ -26,19 +26,20 @@ const CreateClient = () => {
   const [familyMembers, setFamilyMembers] = useState([]);
   const [mandates, setMandates] = useState([]);
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+  const handleChange = (e, fieldName) => {
+    const { type, checked, value } = e.target;
     setValues({
       ...values,
-      [name]: type === "checkbox" ? checked : value,
+      [fieldName]: type === "checkbox" ? checked : value,
     });
-    if (errors[name]) {
+    if (errors[fieldName]) {
       setErrors({
         ...errors,
-        [name]: false,
+        [fieldName]: false,
       });
     }
   };
+
 
   const addFamilyMember = (member) => {
     setFamilyMembers([...familyMembers, member]);

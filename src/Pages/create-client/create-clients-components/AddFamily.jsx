@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import CustomInput from '../../../components/CustomInput';
+import { TextField, MenuItem } from '@mui/material'
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 
 const FamilyMembers = ({
   nextStep,
@@ -24,13 +31,12 @@ const FamilyMembers = ({
     marital_status: '',
   });
   const [editIndex, setEditIndex] = useState(null);
-  const [expandedIndex, setExpandedIndex] = useState(null);
 
-  const handleNewMemberChange = (e) => {
-    const { name, value, type, checked } = e.target;
+  const handleNewMemberChange = (e, fieldName) => {
+    const { value, type, checked } = e.target;
     setNewMember({
       ...newMember,
-      [name]: type === 'checkbox' ? checked : value,
+      [fieldName]: type === 'checkbox' ? checked : value,
     });
   };
 
@@ -63,9 +69,6 @@ const FamilyMembers = ({
     setShowForm(true);
   };
 
-  const toggleAccordion = (index) => {
-    setExpandedIndex(expandedIndex === index ? null : index);
-  };
 
   return (
     <div className="p-4 w-full">
@@ -97,110 +100,71 @@ const FamilyMembers = ({
       {showForm && (
         <div>
           <div className="formWrapper">
-            <CustomInput
-              type="text"
-              name="firstName"
-              label="First Name"
-              value={newMember.firstName}
-              handleChange={handleNewMemberChange}
-              important
-            />
-            <CustomInput
-              type="text"
-              name="lastName"
-              label="Last Name"
-              value={newMember.lastName}
-              handleChange={handleNewMemberChange}
-              important
-            />
-            <CustomInput
-              type="text"
-              name="middleName"
-              label="Middle Name"
-              value={newMember.middleName}
-              handleChange={handleNewMemberChange}
-            />
+            <TextField id="first-name-input" value={newMember.firstName}
+              onChange={(e) => handleNewMemberChange(e, 'firstName')} label="First Name" variant="standard" />
+            <TextField id="standard-basic" value={newMember.lastName}
+              onChange={(e) => handleNewMemberChange(e, 'lastName')} label="Last Name" variant="standard" />
+            <TextField id="standard-basic" value={newMember.middleName}
+              onChange={(e) => handleNewMemberChange(e, 'middleName')} label="Middle Name" variant="standard" />
           </div>
           <div className="formWrapper">
-            <CustomInput
-              type="number"
-              name="age"
-              label="Age"
-              value={newMember.age}
-              handleChange={handleNewMemberChange}
-              important
-            />
-            <CustomInput
-              type="text"
-              name="relationship"
-              label="Relationship"
-              value={newMember.relationship}
-              handleChange={handleNewMemberChange}
-              important
-            />
-            <CustomInput
-              type="select"
-              name="gender"
-              label="Gender"
-              value={newMember.gender}
-              handleChange={handleNewMemberChange}
-              options={[
-                { value: 'male', label: 'Male' },
-                { value: 'female', label: 'Female' },
-                { value: 'other', label: 'Other' },
-              ]}
-              placeholder="Select a gender"
-              important
-            />
+            <TextField id="age-input" value={newMember.age}
+              onChange={(e) => handleNewMemberChange(e, 'age')} name="age"
+              label="Age" variant="standard" type='number' />
+            <TextField id="relationship-input" value={newMember.relationship}
+              onChange={(e) => handleNewMemberChange(e, 'relationship')} name="relationship"
+              label="Relationship" variant="standard" />
+            <TextField id="gender-input" select name="gender"
+              label="Gender" onChange={(e) => handleNewMemberChange(e, 'gender')} required variant="standard" value={newMember.gender}>
+              {
+                [
+                  { value: 'male', label: 'Male' },
+                  { value: 'female', label: 'Female' },
+                  { value: 'other', label: 'Other' },
+                ].map((option) => {
+                  return (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  )
+                })
+              }
+            </TextField>
           </div>
           <div className="formWrapper">
-            <CustomInput
-              type="text"
-              name="profession"
-              label="Profession"
-              value={newMember.profession}
-              handleChange={handleNewMemberChange}
-              important
-            />
-            <CustomInput
-              type="text"
-              name="qualification"
-              label="Qualification"
-              value={newMember.qualification}
-              handleChange={handleNewMemberChange}
-              important
-            />
-            <CustomInput
-              type="select"
-              name="marital_status"
-              label="Marital Status"
-              value={newMember.marital_status}
-              handleChange={handleNewMemberChange}
-              options={[
-                { value: 'single', label: 'Single' },
-                { value: 'married', label: 'Married' },
-                { value: 'complicated', label: 'Complicated' },
-              ]}
-              placeholder="Select a status"
-              important
-            />
+            <TextField id="profession-input" value={newMember.profession}
+              onChange={(e) => handleNewMemberChange(e, 'profession')} name="profession"
+              label="Profession" variant="standard" />
+            <TextField id="qualification-input" name="qualification"
+              label="Qualification" value={newMember.qualification}
+              onChange={(e) => handleNewMemberChange(e, 'qualification')} variant="standard" />
+            <TextField id="marital-status-select" select name="marital_status"
+              label="Marital Status" onChange={(e) => handleNewMemberChange(e, 'marital_status')} required variant="standard" value={newMember.marital_status}>
+              {
+                [
+                  { value: 'single', label: 'Single' },
+                  { value: 'married', label: 'Married' },
+                  { value: 'complicated', label: 'Complicated' },
+                ].map((option) => {
+                  return (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  )
+                })
+              }
+            </TextField>
           </div>
           <div className="formWrapper">
-            <CustomInput
-              type="date"
-              name="dob"
-              label="Date of Birth"
-              value={newMember.dob}
-              handleChange={handleNewMemberChange}
-              important
-            />
+            <TextField id="dob-input" value={newMember.dob} name="dob"
+              onChange={(e) => handleNewMemberChange(e, 'dob')} label="Date of Birth" variant="standard" type='date' />
           </div>
           <div className="flex items-center">
             <input
               type="checkbox"
               name="isDependent"
               checked={newMember.isDependent}
-              onChange={handleNewMemberChange}
+              onChange={(e) => handleNewMemberChange(e, 'isDependent')}
               className="mr-2"
             />
             <label className="font-semibold">Is Dependent?</label>
@@ -213,59 +177,61 @@ const FamilyMembers = ({
           </button>
         </div>
       )}
-      <div>
-        {familyMembers.length > 0 && (
-          <div className="mb-4">
-            <h3 className="text-lg mb-2">Added Family Members</h3>
-            <ul>
-              {familyMembers.map((member, index) => (
-                <li key={index} className="mb-2">
-                  <div
-                    className="flex justify-between items-center bg-gray-100 p-2 cursor-pointer"
-                    onClick={() => toggleAccordion(index)}
-                  >
-                    <span>
-                      {member.firstName} {member.lastName}, {member.relationship}, {member.gender}
-                    </span>
-                    <button className="p-1">
-                      {expandedIndex === index ? '▲' : '▼'}
-                    </button>
-                  </div>
-                  {expandedIndex === index && (
-                    <div className="bg-gray-200 p-2">
-                      <p><strong>First Name:</strong> {member.firstName}</p>
-                      <p><strong>Last Name:</strong> {member.lastName}</p>
-                      <p><strong>Middle Name:</strong> {member.middleName}</p>
-                      <p><strong>Age:</strong> {member.age}</p>
-                      <p><strong>Relationship:</strong> {member.relationship}</p>
-                      <p><strong>Gender:</strong> {member.gender}</p>
-                      <p><strong>Profession:</strong> {member.profession}</p>
-                      <p><strong>Qualification:</strong> {member.qualification}</p>
-                      <p><strong>Marital Status:</strong> {member.marital_status}</p>
-                      <p><strong>Date of Birth:</strong> {member.dob}</p>
-                      <p><strong>Is Dependent:</strong> {member.isDependent ? 'Yes' : 'No'}</p>
-                      <div className="flex justify-end">
-                        <button
-                          onClick={() => editFamilyMember(index)}
-                          className="bg-yellow-500 text-white p-1 rounded mr-2"
-                        >
-                          Edit
-                        </button>
-                        <button
-                          onClick={() => deleteFamilyMember(index)}
-                          className="bg-red-500 text-white p-1 rounded"
-                        >
-                          Delete
-                        </button>
-                      </div>
+      <TableContainer component={Paper} className='my-4'>
+        <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+          <TableHead>
+            <TableRow>
+              <TableCell>First Name</TableCell>
+              <TableCell >Last Name</TableCell>
+              <TableCell >Middle Name</TableCell>
+              <TableCell >Age</TableCell>
+              <TableCell >Relationship</TableCell>
+              <TableCell >Gender</TableCell>
+              <TableCell >Profession</TableCell>
+              <TableCell >Qualification</TableCell>
+              <TableCell >Marital Status</TableCell>
+              <TableCell >DOB</TableCell>
+              <TableCell >Is Dependent</TableCell>
+              <TableCell >Actions</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {
+              familyMembers.map((member, index) => (
+                <TableRow key={index}>
+                  <TableCell component='th'>{member.firstName}</TableCell>
+                  <TableCell component='th'>{member.lastName}</TableCell>
+                  <TableCell component='th'>{member.middleName}</TableCell>
+                  <TableCell component='th'>{member.age}</TableCell>
+                  <TableCell component='th'>{member.relationship}</TableCell>
+                  <TableCell component='th'>{member.gender}</TableCell>
+                  <TableCell component='th'>{member.profession}</TableCell>
+                  <TableCell component='th'>{member.qualification}</TableCell>
+                  <TableCell component='th'>{member.marital_status}</TableCell>
+                  <TableCell component='th'>{member.dob}</TableCell>
+                  <TableCell component='th'>{member.isDependent ? 'Yes' : 'No'}</TableCell>
+                  <TableCell component='th'>
+                    <div className="flex justify-end">
+                      <button
+                        onClick={() => editFamilyMember(index)}
+                        className="bg-yellow-500 text-white p-1 rounded mr-2"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => deleteFamilyMember(index)}
+                        className="bg-red-500 text-white p-1 rounded"
+                      >
+                        Delete
+                      </button>
                     </div>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </div>
+                  </TableCell>
+                </TableRow>
+              ))
+            }
+          </TableBody>
+        </Table>
+      </TableContainer>
       <button onClick={prevStep} className="bg-gray-500 text-white p-2 rounded mr-2">
         Back
       </button>

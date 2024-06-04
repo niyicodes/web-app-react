@@ -1,18 +1,11 @@
 import React from 'react'
-import CustomInput from '../../../components/CustomInput'
+import { TextField } from '@mui/material'
 
 const AddAddress = ({ prevStep, handleChange, values, handleFinalSubmit, errors }) => {
  return (
   <div className=''>
-   <CustomInput
-    type="text"
-    name="clientAddress"
-    label="Client Address"
-    value={values.clientAddress}
-    handleChange={handleChange}
-    hasError={errors.clientAddress}
-    important
-   />
+   <TextField id="client-address-input" value={values.clientAddress}
+    onChange={(e) => handleChange(e, 'clientAddress')} label="Client Address" variant="standard" />
    <button onClick={prevStep} className="bg-gray-500 text-white p-2 rounded mr-2">
     Back
    </button>

@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import CustomInput from "../../../components/CustomInput";
+import { TextField, MenuItem } from '@mui/material'
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 
 const AddMandate = ({
   nextStep,
@@ -26,13 +33,12 @@ const AddMandate = ({
     bvn: "",
   });
   const [editIndex, setEditIndex] = useState(null);
-  const [expandedIndex, setExpandedIndex] = useState(null);
 
-  const handleNewMemberChange = (e) => {
-    const { name, value, type, checked, files } = e.target;
+  const handleNewMemberChange = (e, fieldName) => {
+    const { value, type, checked, files } = e.target;
     setNewMember({
       ...newMember,
-      [name]:
+      [fieldName]:
         type === "checkbox" ? checked : type === "file" ? files[0] : value,
     });
   };
@@ -68,9 +74,6 @@ const AddMandate = ({
     setShowForm(true);
   };
 
-  const toggleAccordion = (index) => {
-    setExpandedIndex(expandedIndex === index ? null : index);
-  };
 
   return (
     <div className="p-4 w-full">
@@ -105,139 +108,95 @@ const AddMandate = ({
         {showForm && (
           <div>
             <div className="formWrapper">
-              <CustomInput
-                type="text"
-                name="firstName"
-                label="First Name"
-                value={newMember.firstName}
-                handleChange={handleNewMemberChange}
-                important
+              <TextField id="first-name-input" value={newMember.firstName}
+                onChange={(e) => handleNewMemberChange(e, 'firstName')} label="First Name" variant="standard" />
+              <TextField id="standard-basic" value={newMember.lastName}
+                onChange={(e) => handleNewMemberChange(e, 'lastName')} label="Last Name" variant="standard" />
+              <TextField id="standard-basic" value={newMember.middleName}
+                onChange={(e) => handleNewMemberChange(e, 'middleName')} label="Middle Name" variant="standard" />
+            </div>
+            <div className="formWrapper">
+              <TextField id="relationship-input" value={newMember.relationship}
+                onChange={(e) => handleNewMemberChange(e, 'relationship')} name="relationship"
+                label="Relationship" variant="standard" />
+              <TextField id="gender-input" select name="gender"
+                label="Gender" onChange={(e) => handleNewMemberChange(e, 'gender')} required variant="standard" value={newMember.gender}>
+                {
+                  [
+                    { value: 'male', label: 'Male' },
+                    { value: 'female', label: 'Female' },
+                    { value: 'other', label: 'Other' },
+                  ].map((option) => {
+                    return (
+                      <MenuItem key={option.value} value={option.value}>
+                        {option.label}
+                      </MenuItem>
+                    )
+                  })
+                }
+              </TextField>
+              <TextField id="standard-basic" value={newMember.phone}
+                onChange={(e) => handleNewMemberChange(e, 'phone')} name="phone"
+                label="Phone Number" variant="standard" type='tel' />
+            </div>
+            <div className="formWrapper">
+              <TextField id="address-input" value={newMember.address}
+                onChange={(e) => handleNewMemberChange(e, 'address')} label="Address" variant="standard" />
+              <TextField id="nin-input" value={newMember.nin}
+                onChange={(e) => handleNewMemberChange(e, 'nin')} label="NIN" variant="standard" />
+              <TextField id="bvn-input" value={newMember.bvn}
+                onChange={(e) => handleNewMemberChange(e, 'bvn')} label="BVN" variant="standard" />
+            </div>
+
+            <TextField id="dob-input" value={newMember.dob} name="dob"
+              onChange={(e) => handleNewMemberChange(e, 'dob')} label="Date of Birth" variant="standard" type='date' />
+            <div className="formWrapper">
+              <label className="block mb-2 font-bold">Passport</label>
+              <input
+                type="file"
+                name="passport"
+                onChange={handleNewMemberChange}
+                className="mb-4"
               />
-              <CustomInput
-                type="text"
-                name="lastName"
-                label="Last Name"
-                value={newMember.lastName}
-                handleChange={handleNewMemberChange}
-                important
-              />
-              <CustomInput
-                type="text"
-                name="middleName"
-                label="Middle Name"
-                value={newMember.middleName}
-                handleChange={handleNewMemberChange}
-              />
-              <CustomInput
-                type="text"
-                name="relationship"
-                label="Relationship"
-                value={newMember.relationship}
-                handleChange={handleNewMemberChange}
-                important
-              />
-              <CustomInput
-                type="select"
-                name="gender"
-                label="Gender"
-                value={newMember.gender}
-                handleChange={handleNewMemberChange}
-                options={[
-                  { value: "male", label: "Male" },
-                  { value: "female", label: "Female" },
-                  { value: "other", label: "Other" },
-                ]}
-                placeholder="Select a gender"
-                important
-              />
-              <CustomInput
-                type="text"
-                name="phone"
-                label="Phone Number"
-                value={newMember.phone}
-                handleChange={handleNewMemberChange}
-                important
-              />
-              <CustomInput
-                type="text"
-                name="address"
-                label="Address"
-                value={newMember.address}
-                handleChange={handleNewMemberChange}
-                important
-              />
-              <CustomInput
-                type="text"
-                name="nin"
-                label="NIN"
-                value={newMember.nin}
-                handleChange={handleNewMemberChange}
-                important
-              />
-              <CustomInput
-                type="text"
-                name="bvn"
-                label="BVN"
-                value={newMember.bvn}
-                handleChange={handleNewMemberChange}
-                important
-              />
-              <CustomInput
-                type="date"
-                name="dob"
-                label="Date of Birth"
-                value={newMember.dob}
-                handleChange={handleNewMemberChange}
-                important
-              />
-              <div className="formWrapper">
-                <label className="block mb-2 font-bold">Passport</label>
-                <input
-                  type="file"
-                  name="passport"
-                  onChange={handleNewMemberChange}
-                  className="mb-4"
+              {newMember.passport && (
+                <img
+                  src={URL.createObjectURL(newMember.passport)}
+                  alt="Passport Preview"
+                  className="mb-4 w-32 h-32 object-cover"
                 />
-                {newMember.passport && (
-                  <img
-                    src={URL.createObjectURL(newMember.passport)}
-                    alt="Passport Preview"
-                    className="mb-4 w-32 h-32 object-cover"
-                  />
-                )}
-              </div>
-              <div className="formWrapper">
-                <label className="block mb-2 font-bold">Signature</label>
-                <input
-                  type="file"
-                  name="signature"
-                  onChange={handleNewMemberChange}
-                  className="mb-4"
+              )}
+            </div>
+            <div className="formWrapper">
+              <label className="block mb-2 font-bold">Signature</label>
+              <input
+                type="file"
+                name="signature"
+                onChange={handleNewMemberChange}
+                className="mb-4"
+              />
+              {newMember.signature && (
+                <img
+                  src={URL.createObjectURL(newMember.signature)}
+                  alt="Signature Preview"
+                  className="mb-4 w-32 h-32 object-cover"
                 />
-                {newMember.signature && (
-                  <img
-                    src={URL.createObjectURL(newMember.signature)}
-                    alt="Signature Preview"
-                    className="mb-4 w-32 h-32 object-cover"
-                  />
-                )}
-              </div>
-              <div className="formWrapper">
-                <label className="block mb-2 font-bold">Means of ID</label>
-                <input
-                  type="file"
-                  name="meansOfId"
-                  onChange={handleNewMemberChange}
-                  className="mb-4"
+              )}
+            </div>
+            <div className="formWrapper">
+              <label className="block mb-2 font-bold">Means of ID</label>
+              <input
+                type="file"
+                name="meansOfId"
+                onChange={handleNewMemberChange}
+                className="mb-4"
+              />
+              {newMember.meansOfId && (
+                <img
+                  src={URL.createObjectURL(newMember.meansOfId)}
+                  alt="Means of ID Preview"
+                  className="mb-4 w-32 h-32 object-cover"
                 />
-                {newMember.meansOfId && (
-                  <img
-                    src={URL.createObjectURL(newMember.meansOfId)}
-                    alt="Means of ID Preview"
-                    className="mb-4 w-32 h-32 object-cover"
-                  />
-                )}
-              </div>
+              )}
             </div>
             <button
               onClick={submitMandate}
@@ -248,81 +207,57 @@ const AddMandate = ({
           </div>
         )}
       </section>
-      <div>
-        {mandate.map((member, index) => (
-          <div key={index} className="mb-4">
-            <div
-              className="flex justify-between items-center bg-gray-100 p-2 cursor-pointer"
-              onClick={() => toggleAccordion(index)}
-            >
-              <span>
-                {member.firstName} {member.lastName}
-              </span>
-              <button className="p-1">
-                {expandedIndex === index ? "▲" : "▼"}
-              </button>
-            </div>
-            {expandedIndex === index && (
-              <div className="bg-gray-200 p-2">
-                <p>
-                  <strong>First Name:</strong> {member.firstName}
-                </p>
-                <p>
-                  <strong>Last Name:</strong> {member.lastName}
-                </p>
-                <p>
-                  <strong>Middle Name:</strong> {member.middleName}
-                </p>
-                <p>
-                  <strong>Phone:</strong> {member.phone}
-                </p>
-                <p>
-                  <strong>Relationship:</strong> {member.relationship}
-                </p>
-                <p>
-                  <strong>Gender:</strong> {member.gender}
-                </p>
-                <p>
-                  <strong>DOB:</strong> {member.dob}
-                </p>
-                <p>
-                  <strong>Address:</strong> {member.address}
-                </p>
-                <p>
-                  <strong>NIN:</strong> {member.nin}
-                </p>
-                <p>
-                  <strong>BVN:</strong> {member.bvn}
-                </p>
-                <p>
-                  <strong>Passport:</strong>{" "}
-                  {member.passport ? member.passport.name : "Not uploaded"}
-                </p>
-                <p>
-                  <strong>Signature:</strong>{" "}
-                  {member.signature ? member.signature.name : "Not uploaded"}
-                </p>
-                <p>
-                  <strong>Means of ID:</strong>{" "}
-                  {member.meansOfId ? member.meansOfId.name : "Not uploaded"}
-                </p>
-                <button
-                  onClick={() => editMandate(index)}
-                  className="bg-yellow-500 text-white p-1 rounded mr-2"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => deleteMandate(index)}
-                  className="bg-red-500 text-white p-1 rounded"
-                >
-                  Delete
-                </button>
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
+      <TableContainer component={Paper} className='my-4'>
+        <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+          <TableHead>
+            <TableRow>
+              <TableCell>First Name</TableCell>
+              <TableCell >Last Name</TableCell>
+              <TableCell >Middle Name</TableCell>
+              <TableCell >Relationship</TableCell>
+              <TableCell >Gender</TableCell>
+              <TableCell >Phone number</TableCell>
+              <TableCell >Address</TableCell>
+              <TableCell >NIN</TableCell>
+              <TableCell >BVN</TableCell>
+              <TableCell >Actions</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {
+              mandate.map((mandate, index) => (
+                <TableRow key={index}>
+                  <TableCell component='th'>{mandate.firstName}</TableCell>
+                  <TableCell component='th'>{mandate.lastName}</TableCell>
+                  <TableCell component='th'>{mandate.middleName}</TableCell>
+                  <TableCell component='th'>{mandate.relationship}</TableCell>
+                  <TableCell component='th'>{mandate.gender}</TableCell>
+                  <TableCell component='th'>{mandate.phone}</TableCell>
+                  <TableCell component='th'>{mandate.address}</TableCell>
+                  <TableCell component='th'>{mandate.nin}</TableCell>
+                  <TableCell component='th'>{mandate.bvn}</TableCell>
+                  <TableCell component='th'>
+                    <div>
+                      <button
+                        onClick={() => editMandate(index)}
+                        className="bg-yellow-500 text-white p-1 rounded mr-2"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => deleteMandate(index)}
+                        className="bg-red-500 text-white p-1 rounded"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))
+            }
+          </TableBody>
+        </Table>
+      </TableContainer>
       <button
         onClick={prevStep}
         className="bg-gray-500 text-white p-2 rounded mr-2"
